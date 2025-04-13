@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtual Tour | Akash Motors</title>
+    <style>
+        .virtual-tour-section {
+            padding: 4rem 5%;
+            background: #f5f5f5;
+        }
+        
+        .tour-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        #virtual-tour-container {
+            width: 100%;
+            height: 600px;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            position: relative;
+        }
+        
+        .tour-navigation {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .nav-button {
+            padding: 0.8rem 1.5rem;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+        
+        .nav-button:hover {
+            background: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        .nav-button.active {
+            background: #2c3e50;
+        }
+        
+        .location-info {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 2rem auto;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.2rem;
+            z-index: 10;
+        }
+        
+        @media (max-width: 768px) {
+            #virtual-tour-container {
+                height: 400px;
+            }
+            
+            .nav-button {
+                padding: 0.6rem 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="virtual-tour-section">
+        <div class="tour-header">
+            <h2>Virtual Tour</h2>
+            <p>Explore our dealership from the comfort of your home</p>
+        </div>
+        
+        <div id="virtual-tour-container">
+            <div class="loading-overlay">
+                <p>Loading virtual tour...</p>
+            </div>
+            <!-- Tour iframe will be inserted here by JavaScript -->
+        </div>
+        
+        <div class="tour-navigation">
+            <button class="nav-button active" data-scene="showroom">Showroom</button>
+            <button class="nav-button" data-scene="service">Service Center</button>
+            <button class="nav-button" data-scene="financing">Financing Office</button>
+            <button class="nav-button" data-scene="lot">Vehicle Lot</button>
+        </div>
+        
+        <div class="location-info">
+            <h3>Main Showroom</h3>
+            <p>Browse our latest inventory of luxury and performance vehicles in our state-of-the-art showroom. Use the navigation buttons above to explore different areas of our dealership.</p>
+            <button class="nav-button" style="margin-top: 1rem;">Schedule a Visit</button>
+        </div>
+    </section>
+
+    <script>
+        // Tour scenes configuration
+        const tourScenes = {
+            showroom: {
+                url: 'https://momento360.com/e/u/14000fe4a05b4054bfced21ff7a653ea?utm_campaign=embed&utm_source=other&heading=-194.35&pitch=-17.5&field-of-view=100&size=medium&display-plan=true',
+                title: 'Main Showroom',
+                description: 'Browse our latest inventory of luxury and performance vehicles in our state-of-the-art showroom.'
+            },
+            service: {
+                url: 'https://momento360.com/e/u/109fdfac1b284f579d443ffa0d8d8fc9?utm_campaign=embed&utm_source=other&heading=0&pitch=0&field-of-view=75&size=medium&display-plan=true',
+                title: 'Service Center',
+                description: 'Our state-of-the-art service center features certified technicians using genuine parts and the latest diagnostic equipment.'
+            },
+            financing: {
+                url: 'https://momento360.com/e/u/520ac44059ef47489f72fb88e17f0628?utm_campaign=embed&utm_source=other&heading=0&pitch=0&field-of-view=75&size=medium&display-plan=true',
+                title: 'Financing Office',
+                description: 'Meet with our financing specialists to find the perfect payment plan for your new vehicle.'
+            },
+            lot: {
+                url: 'https://momento360.com/e/u/ca83ef6563024d1c8398b9380ced3456?utm_campaign=embed&utm_source=other&heading=140.5&pitch=-35.61&field-of-view=75&size=medium&display-plan=true',
+                title: 'Vehicle Lot',
+                description: 'View our complete inventory of available vehicles in our spacious lot.'
+            }
+        };
+
+        // Initialize the tour with showroom as default
+        let currentTourIframe;
+        
+        function loadTourScene(sceneKey) {
+            const container = document.getElementById('virtual-tour-container');
+            const loadingOverlay = container.querySelector('.loading-overlay');
+            const scene = tourScenes[sceneKey];
+            
+            if (!scene.url || scene.url === '#') {
+                alert('This area tour is coming soon! Currently viewing the showroom.');
+                document.querySelector(`.nav-button[data-scene="${sceneKey}"]`).classList.remove('active');
+                document.querySelector('.nav-button[data-scene="showroom"]').classList.add('active');
+                return;
+            }
+            
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+            
+            // Remove existing iframe if present
+            if (currentTourIframe) {
+                container.removeChild(currentTourIframe);
+            }
+            
+            // Create new iframe
+            currentTourIframe = document.createElement('iframe');
+            currentTourIframe.setAttribute('width', '100%');
+            currentTourIframe.setAttribute('height', '100%');
+            currentTourIframe.setAttribute('frameborder', '0');
+            currentTourIframe.setAttribute('allow', 'xr-spatial-tracking');
+            currentTourIframe.setAttribute('allowfullscreen', '');
+            currentTourIframe.src = scene.url;
+            
+            // Add event listener for when the iframe loads
+            currentTourIframe.onload = function() {
+                loadingOverlay.style.display = 'none';
+            };
+            
+            container.appendChild(currentTourIframe);
+            
+            // Update location info
+            document.querySelector('.location-info h3').textContent = scene.title;
+            document.querySelector('.location-info p').textContent = scene.description;
+            
+            // Update active button
+            document.querySelectorAll('.nav-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.nav-button[data-scene="${sceneKey}"]`).classList.add('active');
+        }
+        
+        // Load showroom by default
+        loadTourScene('showroom');
+        
+        // Handle navigation buttons
+        document.querySelectorAll('.nav-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const scene = this.getAttribute('data-scene');
+                loadTourScene(scene);
+            });
+        });
+        
+        // For demo purposes - in a real implementation, you would have actual links for all scenes
+        document.querySelector('.location-info button').addEventListener('click', function() {
+            alert('This would link to your appointment scheduling system in a live implementation.');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Test Drive | Luxury Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .cta-button {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .cta-button:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+        
+        /* Test Drive Hero */
+        .testdrive-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            padding-top: 80px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://t3.ftcdn.net/jpg/07/24/21/02/360_F_724210223_yy3H1dH2kh31OCeO99oG2OAJVyksWN3j.jpg') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+        
+        .testdrive-hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .testdrive-hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Main Content */
+        .testdrive-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 5rem 5%;
+        }
+        
+        .testdrive-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .form-title {
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            text-align: center;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--secondary);
+            outline: none;
+        }
+        
+        .vehicle-selector {
+            position: relative;
+        }
+        
+        .vehicle-dropdown {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+        
+        .selected-vehicle-preview {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary);
+        }
+        
+        .selected-vehicle-preview img {
+            width: 100px;
+            height: 70px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        
+        .selected-vehicle-info h3 {
+            margin-bottom: 0.3rem;
+            color: var(--primary);
+        }
+        
+        .selected-vehicle-info p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .no-vehicle-selected {
+            padding: 1.5rem;
+            margin-top: 1rem;
+            background: var(--light);
+            border-radius: 8px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+        
+        /* Confirmation Modal */
+        .confirmation-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 3rem;
+            border-radius: 10px;
+            max-width: 500px;
+            text-align: center;
+            animation: fadeIn 0.3s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .modal-icon {
+            font-size: 4rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .modal-text {
+            margin-bottom: 2rem;
+            color: #555;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-group.full-width {
+                grid-column: span 1;
+            }
+            
+            .testdrive-hero h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">AKASH<span> MOTORS</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#inventory">Inventory</a>
+            <a href="index.html#about">About</a>
+            <a href="index.html#contact">Contact</a>
+            <a href="test_drive.html" class="cta-button">Book Test Drive</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="testdrive-hero">
+        <div style="width: 100%;">
+            <h1>Experience Luxury First Hand</h1>
+            <p>Schedule a test drive with any vehicle from our inventory. Our specialists will prepare your selected vehicle for a personalized experience.</p>
+            <a href="#testdrive-form" class="cta-button" style="padding: 1rem 2rem;">Book Now</a>
+        </div>
+    </section>
+
+    <!-- Test Drive Form Section -->
+    <section class="testdrive-container" id="testdrive-form">
+        <div class="testdrive-form">
+            <h2 class="form-title">Schedule Your Test Drive</h2>
+            <form id="tdForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="fullname">Full Name</label>
+                        <input type="text" id="fullname" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="date">Preferred Date</label>
+                        <input type="date" id="date" required min="">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="time">Preferred Time</label>
+                        <select id="time" required>
+                            <option value="">Select Time</option>
+                            <option>9:00 AM</option>
+                            <option>10:00 AM</option>
+                            <option>11:00 AM</option>
+                            <option>12:00 PM</option>
+                            <option>1:00 PM</option>
+                            <option>2:00 PM</option>
+                            <option>3:00 PM</option>
+                            <option>4:00 PM</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Preferred Location</label>
+                        <select id="location" required>
+                            <option value="">Select Location</option>
+                            <option>Beverly Hills Showroom</option>
+                            <option>Santa Monica Dealership</option>
+                            <option>Home Delivery (LA Area)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group vehicle-selector full-width">
+                        <label for="vehicle">Select Vehicle</label>
+                        <select id="vehicle" class="vehicle-dropdown" required>
+                            <option value="">Choose a vehicle...</option>
+                            <option value="bmw-c7" data-image="https://images.unsplash.com/photo-1555215695-3004980ad54e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" data-info="2023 BMW C7 Series | 3.0L TwinPower Turbo | 382 HP">2023 BMW C7 Series</option>
+                            <option value="camaro-zl1" data-image="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2083&q=80" data-info="2023 Chevrolet Camaro ZL1 | 6.2L Supercharged V8 | 650 HP">2023 Chevrolet Camaro ZL1</option>
+                            <option value="porsche-911" data-image="https://images.unsplash.com/photo-1503376780353-7e6692767b70?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" data-info="2023 Porsche 911 Turbo S | 3.7L Twin-Turbo Flat-6 | 640 HP">2023 Porsche 911 Turbo S</option>
+                            <option value="other">Other Vehicle (Specify in Notes)</option>
+                        </select>
+                        
+                        <div id="vehiclePreview" class="no-vehicle-selected">
+                            Please select a vehicle from the dropdown
+                        </div>
+                    </div>
+                    
+                    <div class="form-group full-width">
+                        <label for="notes">Special Requests</label>
+                        <textarea id="notes" rows="3" placeholder="Any specific features you'd like to experience? Preferred color?"></textarea>
+                    </div>
+                </div>
+                
+                <button type="submit" class="cta-button form-submit">Confirm Test Drive</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <div class="modal-icon">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="modal-title">Test Drive Scheduled!</h3>
+            <p class="modal-text" id="confirmationText"></p>
+            <button class="cta-button" id="closeModal" style="padding: 0.8rem 2rem;">Done</button>
+        </div>
+    </div>
+
+    <script>
+        // Set minimum date to today
+        document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        
+        // Vehicle selection preview
+        const vehicleSelect = document.getElementById('vehicle');
+        const vehiclePreview = document.getElementById('vehiclePreview');
+        
+        vehicleSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            
+            if (selectedOption.value === "" || selectedOption.value === "other") {
+                vehiclePreview.innerHTML = selectedOption.value === "other" 
+                    ? 'Please specify your preferred vehicle in the Special Requests field below'
+                    : 'Please select a vehicle from the dropdown';
+                vehiclePreview.className = 'no-vehicle-selected';
+            } else {
+                const imgUrl = selectedOption.getAttribute('data-image');
+                const infoText = selectedOption.getAttribute('data-info');
+                
+                vehiclePreview.innerHTML = `
+                    <img src="${imgUrl}" alt="Selected Vehicle">
+                    <div class="selected-vehicle-info">
+                        <h3>${selectedOption.text}</h3>
+                        <p>${infoText}</p>
+                    </div>
+                `;
+                vehiclePreview.className = 'selected-vehicle-preview';
+            }
+        });
+        
+        // Form submission
+        const form = document.getElementById('tdForm');
+        const modal = document.getElementById('confirmationModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmationText = document.getElementById('confirmationText');
+        
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = {
+                name: document.getElementById('fullname').value,
+                vehicle: document.getElementById('vehicle').options[document.getElementById('vehicle').selectedIndex].text,
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                location: document.getElementById('location').value
+            };
+            
+            // Update confirmation text
+            confirmationText.innerHTML = `
+                Thank you, <strong>${formData.name}</strong>!<br><br>
+                Your test drive request for the <strong>${formData.vehicle}</strong> has been received.<br><br>
+                <strong>Date:</strong> ${formData.date}<br>
+                <strong>Time:</strong> ${formData.time}<br>
+                <strong>Location:</strong> ${formData.location}<br><br>
+                We'll contact you within 24 hours to confirm your appointment.
+            `;
+            
+            // Show modal
+            modal.style.display = 'flex';
+            
+            // Reset form
+            form.reset();
+            vehiclePreview.innerHTML = 'Please select a vehicle from the dropdown';
+            vehiclePreview.className = 'no-vehicle-selected';
+            document.getElementById('date').min = new Date().toISOString().split('T')[0];
+        });
+        
+        // Close modal
+        closeModal.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+        
+        // Close when clicking outside modal
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

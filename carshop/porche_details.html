@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Porsche 911 Turbo S | Luxury Motors</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Reuse all CSS styles from BMW page */
+        :root {
+            --primary: #2c3e50;
+            --secondary: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        /* Navigation */
+        nav {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+        
+        .cta-button {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 5px;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .cta-button:hover {
+            background-color: #c0392b;
+        }
+        
+        /* Vehicle Detail Page Styles */
+        .vehicle-detail {
+            padding-top: 80px;
+        }
+        
+        .vehicle-header {
+            position: relative;
+            height: 80vh;
+            min-height: 600px;
+            overflow: hidden;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 0;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 1;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .vehicle-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .vehicle-price {
+            font-size: 2rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .vehicle-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        
+        .vehicle-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .vehicle-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+            padding: 3rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .vehicle-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .vehicle-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+        
+        .vehicle-gallery img:hover {
+            transform: scale(1.02);
+        }
+        
+        .vehicle-features h2, 
+        .vehicle-specs h2 {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .feature-item {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .specs-table tr:nth-child(even) {
+            background-color: white;
+        }
+        
+        .specs-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .specs-table td:first-child {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .vehicle-sidebar {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+        
+        .sidebar-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+        }
+        
+        .sidebar-form .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .sidebar-form input,
+        .sidebar-form select,
+        .sidebar-form textarea {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .sidebar-form textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .test-drive-btn {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1.1rem;
+        }
+        
+        .model-container {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        /* Porsche-specific tweaks */
+        .porsche-badge {
+            background-color: #000;
+            color: #fff;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-left: 0.5rem;
+            vertical-align: middle;
+        }
+        /* 360 Viewer Styles */
+.vehicle-360view {
+    margin: 2rem 0;
+}
+
+.vehicle-360view h2 {
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light);
+}
+
+.model-container {
+    width: 100%;
+    height: 500px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    margin-bottom: 1rem;
+}
+
+.viewer-instructions {
+    text-align: center;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+    .model-container {
+        height: 350px;
+    }
+}
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .vehicle-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .vehicle-sidebar {
+                position: static;
+            }
+            
+            .vehicle-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .vehicle-price {
+                font-size: 1.8rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .vehicle-header {
+                height: 70vh;
+                min-height: 500px;
+            }
+            
+            .vehicle-meta {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">AKASH<span> MOTORS</span></a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="index.html#view">Inventory</a>
+            <a href="index.html#footer">About</a>
+            <a href="index.html#footer">Contact</a>
+            <a href="test_drive.html" class="cta-button">Book Test Drive</a>
+        </div>
+    </nav>
+
+    <!-- Vehicle Detail Section -->
+    <section class="vehicle-detail">
+        <div class="vehicle-header">
+            <!-- Video Background -->
+            <video class="video-background" autoplay muted loop playsinline>
+                <source src="porche_run.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="overlay"></div>
+            
+            <div class="header-content">
+                <h1>Porsche 911 Turbo S <span class="porsche-badge">Heritage Edition</span></h1>
+                <div class="vehicle-price">$215,300</div>
+                <div class="vehicle-meta">
+                    <span><i class="fas fa-tachometer-alt"></i> 4,500 mi</span>
+                    <span><i class="fas fa-gas-pump"></i> 18 city / 24 hwy</span>
+                    <span><i class="fas fa-car"></i> Coupe</span>
+                </div>
+                <a href="#contact-form" class="cta-button">See More</a>
+            </div>
+        </div>
+        
+        <div class="vehicle-content">
+            <div class="vehicle-main">
+              
+              <!-- Replace this div -->
+
+<!-- With this 360 viewer section -->
+<div class="vehicle-360view">
+    <h2> 360° Interior Visit</h2>
+    <div class="model-container">
+        <iframe 
+            src="https://momento360.com/e/u/f072b214063347458fde9b68724f2fb0?utm_campaign=embed&utm_source=other&heading=69.99&pitch=-18.89&field-of-view=100&size=medium&display-plan=true" 
+            width="100%" 
+            height="100%"
+            frameborder="0"
+            allowfullscreen
+            allow="xr-spatial-tracking"
+            style="border-radius: 10px;"
+        ></iframe>
+    </div>
+    <p class="viewer-instructions">Drag to rotate | Pinch to zoom | Click hotspots for details</p>
+</div>   
+                <!-- Image Gallery -->
+                <div class="vehicle-gallery">
+                    <img src="https://67cdn.co.uk/137/3/414011/17285650646707cf485ec77_0s2a0041.jpg?width=560&height=346&crop=auto" alt="Porsche 911 Turbo S Front">
+                    <img src="https://67cdn.co.uk/137/3/414011/17285650646707cf48a6828_0s2a0042.jpg?width=560&height=346&crop=auto" alt="Porsche 911 Turbo S Side">
+                    <img src="https://67cdn.co.uk/137/3/414011/17285650716707cf4f252ed_0s2a0057.jpg?width=560&height=346&crop=auto" alt="Porsche 911 Turbo S Interior">
+                    <img src="https://67cdn.co.uk/137/3/414011/17285650686707cf4cbe89c_0s2a0051.jpg?width=560&height=346&crop=auto" alt="Porsche 911 Turbo S Rear">
+                </div>
+                
+                <!-- Features -->
+                <div class="vehicle-features">
+                    <h2>Porsche Exclusive Features</h2>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-turbo"></i> <strong>3.7L Twin-Turbo</strong>
+                            <p>Flat-6 engine with 640hp and 590 lb-ft torque</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-bolt"></i> <strong>0-60 in 2.6s</strong>
+                            <p>With Sport Chrono Package and Launch Control</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-wind"></i> <strong>Active Aero</strong>
+                            <p>Adaptive rear wing and front air intakes</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-cogs"></i> <strong>PDK Transmission</strong>
+                            <p>8-speed dual-clutch with paddle shifters</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-chair"></i> <strong>18-Way Seats</strong>
+                            <p>Adaptive sport seats with memory package</p>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-volume-up"></i> <strong>Burmester Audio</strong>
+                            <p>3D surround sound system with noise compensation</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Specifications -->
+                <div class="vehicle-specs">
+                    <h2>Technical Specifications</h2>
+                    <table class="specs-table">
+                        <tr>
+                            <td>Engine</td>
+                            <td>3.7L Twin-Turbo Flat-6 (H6)</td>
+                        </tr>
+                        <tr>
+                            <td>Horsepower</td>
+                            <td>640 hp @ 6,750 rpm</td>
+                        </tr>
+                        <tr>
+                            <td>Torque</td>
+                            <td>590 lb-ft @ 2,500-4,000 rpm</td>
+                        </tr>
+                        <tr>
+                            <td>Transmission</td>
+                            <td>8-speed PDK dual-clutch</td>
+                        </tr>
+                        <tr>
+                            <td>Drivetrain</td>
+                            <td>PTM AWD with Porsche Torque Vectoring+</td>
+                        </tr>
+                        <tr>
+                            <td>0-60 mph</td>
+                            <td>2.6 seconds</td>
+                        </tr>
+                        <tr>
+                            <td>Top Speed</td>
+                            <td>205 mph</td>
+                        </tr>
+                        <tr>
+                            <td>Fuel Economy</td>
+                            <td>18 city / 24 highway</td>
+                        </tr>
+                        <tr>
+                            <td>Curb Weight</td>
+                            <td>3,650 lbs</td>
+                        </tr>
+                        <tr>
+                            <td>Warranty</td>
+                            <td>4 years/50,000 miles</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Sidebar Contact Form -->
+            <div class="vehicle-sidebar">
+                <h3 class="sidebar-title">Configure Your 911</h3>
+                <form class="sidebar-form" id="contact-form">
+                    <div class="form-group">
+                        <input type="text" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Phone Number" required>
+                    </div>
+                    <div class="form-group">
+                        <select required>
+                            <option value="">Contact Reason</option>
+                            <option>Test Drive</option>
+                            <option>Custom Order</option>
+                            <option>Financing</option>
+                            <option>Trade-In</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Special Requests (Color, Packages, etc.)"></textarea>
+                    </div>
+                    <button type="submit" class="cta-button test-drive-btn">Request Configuration</button>
+                </form>
+                
+                <div style="margin-top: 2rem; text-align: center;">
+                    <h4 style="margin-bottom: 1rem;">Lease Estimate</h4>
+                    <div style="background: #f5f5f5; padding: 1rem; border-radius: 5px;">
+                        <p style="margin-bottom: 0.5rem;">Estimated Payment: <strong>$2,899/mo</strong></p>
+                        <small style="color: #777;">Based on 10% down, 5.9% APR for 36 months</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+   
+</body>
+</html>
